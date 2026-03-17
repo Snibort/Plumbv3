@@ -1,0 +1,43 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile data including licensing information.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The user's unique ID."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "admin"],
+          "description": "The user's role."
+        },
+        "hasActiveLicense": {
+          "type": "boolean",
+          "description": "Whether the user has an active license to use the app."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the user profile was created."
+        }
+      },
+      "required": ["uid", "email", "role", "hasActiveLicense", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "UserProfile"
+      },
+      "description": "Stores user profiles."
+    }
+  }
+}
