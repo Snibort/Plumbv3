@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import Stripe from "stripe";
@@ -133,9 +134,13 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static("dist"));
+    // ☁️ LIVE ON THE INTERNET: Give the exact GPS coordinates to the 'dist' folder
+    const distPath = path.join(process.cwd(), "dist");
+    
+    app.use(express.static(distPath));
+    
     app.get("*", (req, res) => {
-      res.sendFile("index.html", { root: "dist" });
+      res.sendFile(path.join(distPath, "index.html"));
     });
   }
 
