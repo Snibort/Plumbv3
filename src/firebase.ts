@@ -3,7 +3,16 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getFirestore } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
 
-const app = initializeApp(firebaseConfig);
+// 1. Create a new mixing bowl for our final recipe
+const finalConfig = {
+  // 2. Dump in all the safe, public ingredients from the JSON recipe book
+  ...firebaseConfig, 
+  // 3. Add the secret ingredient (the API key) directly from our locked safe (.env)
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY 
+};
+
+// 4. Put the finished mix into the oven (start Firebase!)
+const app = initializeApp(finalConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 
