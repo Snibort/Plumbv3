@@ -127,20 +127,21 @@ async function startServer() {
   });
 
  if (process.env.NODE_ENV !== "production") {
-    // 💻 LOCAL TESTING: Let Vite handle the frontend
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
   } else {
-    // ☁️ LIVE ON THE INTERNET: Serve the compiled visual website
     app.use(express.static("dist"));
-    
-    // If the user goes to any page, load the main visual website
     app.get("*", (req, res) => {
       res.sendFile("index.html", { root: "dist" });
     });
   }
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 startServer();
